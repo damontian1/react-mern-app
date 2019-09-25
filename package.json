@@ -6,10 +6,8 @@
   "scripts": {
     "client": "npm start --prefix client",
     "build": "npm run build --prefix client",
-    "start": "node server",
-    "server": "nodemon server.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "deploy": "gh-pages -d client/build"
+    "serve": "nodemon server.js",
+    "start": "concurrently 'npm run serve' 'npm run client'"
   },
   "keywords": [],
   "author": "",

@@ -31,7 +31,7 @@ class App extends Component {
     if (localStorage.token) {
       // axios.defaults.headers.common['Authorization'] = localStorage.token;
       const decoded = jwtDecode(localStorage.token);
-      this.setState({currentUser: {...this.state.currentUser, isAuthenticated: true, user: decoded}})
+      this.setState({ currentUser: { ...this.state.currentUser, isAuthenticated: true, user: decoded } })
     }
   }
 
@@ -45,18 +45,19 @@ class App extends Component {
               .then(res => {
                 window.location.href = "/login"
               })
-              .catch(err => this.setState({errors: err.response.data}))
+              .catch(err => this.setState({ errors: err.response.data }))
           },
           loginUser: (user, history) => {
             axios.post("/api/users/login", user)
               .then(res => {
                 const { token } = res.data;
+                // console.log(token)
                 localStorage.setItem("token", token);
                 const decoded = jwtDecode(token);
-                if (decoded) this.setState({currentUser: {...this.state.currentUser, isAuthenticated: true, user: decoded}})
+                if (decoded) this.setState({ currentUser: { ...this.state.currentUser, isAuthenticated: true, user: decoded } })
                 history.push("/profile")
               })
-              .catch(err => this.setState({errors: err.response.data}))
+              .catch(err => this.setState({ errors: err.response.data }))
           },
           logoutUser: () => {
             localStorage.removeItem("token");
@@ -64,8 +65,8 @@ class App extends Component {
           },
           getCurrentProfile: () => {
             if (localStorage.token) {
-              axios.get("/api/profile", { headers: {"Authorization" : localStorage.token} })
-                .then(res => this.setState({profile: res.data}))
+              axios.get("/api/profile", { headers: { "Authorization": localStorage.token } })
+                .then(res => this.setState({ profile: res.data }))
                 .catch(err => console.log(err.response.data))
             }
             else {
@@ -73,7 +74,7 @@ class App extends Component {
             }
           },
           createProfile: (newProfile, history) => {
-            axios.post("/api/profile", newProfile, { headers: {"Authorization" : localStorage.token}})
+            axios.post("/api/profile", newProfile, { headers: { "Authorization": localStorage.token } })
               .then(profile => console.log(profile))
             history.push("/profile")
           }
@@ -83,9 +84,9 @@ class App extends Component {
           <div className="App">
             <Navbar />
             <div className="container">
-              <Route exact path="/" component={Home}/>
-              <Route exact path="/login" component={Login}/>
-              <Route exact path="/register" component={Register}/>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
               <PrivateRoute exact path="/profile" component={Profile} authed={this.state.currentUser.isAuthenticated} />
               <PrivateRoute exact path="/register-profile" component={RegisterProfile} authed={this.state.currentUser.isAuthenticated} />
             </div>

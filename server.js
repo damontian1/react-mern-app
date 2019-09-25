@@ -20,8 +20,8 @@ const app = express();
 -----------------------*/
 // setup mongoose
 mongoose
-  .connect("mongodb://test:test@ds115360.mlab.com:15360/devconnector1-test")
-  .then(() => console.log("mlab connected!"))
+  .connect("mongodb+srv://testing1:testing1@cluster0-1nj9z.mongodb.net/test?retryWrites=true&w=majority")
+  .then(() => console.log("cloud.mongodb.com connected!"))
   .catch(err => console.log(err.message));
 
 // setup passport
@@ -87,7 +87,7 @@ app.post("/api/users/register", (req, res) => {
         errors.email = "Email already exists!";
         return res.status(400).json(errors);
       }
-      const avatar = gravatar.url(email, {s: '200', d: 'mm'});
+      const avatar = gravatar.url(email, { s: '200', d: 'mm' });
       var newUser = new User({ name, email, avatar });
       bcryptjs.genSalt(10, (err, salt) => {
         bcryptjs.hash(password, salt, (err2, hash) => {
